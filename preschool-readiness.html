@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌈 Ready for Preschool!</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --strawberry: #FF6BA0;
+  --tangerine:  #FFB347;
+  --sunshine:   #FFE566;
+  --lime:       #5DD88A;
+  --sky:        #5BC8F5;
+  --lavender:   #B99CF5;
+  --bubblegum:  #FF9FD2;
+  --mint:       #5DEDC0;
+  --peach:      #FFB87A;
+  --lilac:      #D4A8FF;
+  --bg:         #FEFCFF;
+  --text:       #3D2A6B;
+  --soft:       #7A62A8;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: #FEFCFF;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #3D2A6B;
+}
+
+/* ── ANIMATED GRADIENT BG ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 20%, rgba(255,160,190,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 75%, rgba(100,200,255,.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(100,230,180,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 80% 15%, rgba(255,230,80,.14) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── BLOBS ── */
+.blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.blob {
+  position: absolute;
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  opacity: .10;
+  animation: morph linear infinite alternate, drift linear infinite;
+  will-change: transform, border-radius;
+}
+@keyframes morph {
+  0%   { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+  33%  { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; }
+  66%  { border-radius: 50% 50% 45% 55% / 40% 60% 50% 50%; }
+  100% { border-radius: 55% 45% 60% 40% / 60% 40% 55% 45%; }
+}
+@keyframes drift {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+  50%  { transform: translate(18px, -22px) rotate(8deg) scale(1.04); }
+  100% { transform: translate(-12px, 14px) rotate(-6deg) scale(.97); }
+}
+
+/* ── LAYOUT ── */
+#app {
+  position: relative; z-index: 1;
+  max-width: 800px; margin: 0 auto;
+  padding: 0 18px 60px;
+}
+
+/* ── SCREEN TRANSITIONS ── */
+.screen { display: none; }
+.screen.active {
+  display: block;
+  animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   HOME
+═══════════════════════════════════════ */
+.home-hero {
+  text-align: center;
+  padding: 48px 0 36px;
+}
+.hero-mascot {
+  font-size: 80px;
+  display: inline-block;
+  animation: wobble 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(255,107,138,.25));
+}
+@keyframes wobble {
+  0%,100% { transform: rotate(-4deg) scale(1); }
+  50%      { transform: rotate(5deg)  scale(1.08); }
+}
+.hero-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(34px, 7vw, 58px);
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #FF6BA0, #FFB347, #FFE566, #5DD88A, #5BC8F5);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin: 12px 0 8px;
+}
+.hero-sub {
+  font-size: 18px; font-weight: 600;
+  color: var(--soft);
+}
+
+/* HOME CARDS GRID */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 16px;
+}
+.hcard {
+  position: relative;
+  border-radius: 28px;
+  padding: 24px 14px 20px;
+  text-align: center;
+  cursor: pointer;
+  border: none; outline: none;
+  box-shadow: 0 6px 24px rgba(58,48,96,.1), 0 2px 8px rgba(58,48,96,.07);
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+  overflow: hidden;
+  background: white;
+}
+.hcard::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: .15;
+  border-radius: 28px;
+}
+.hcard:hover  { transform: translateY(-8px) scale(1.04); box-shadow: 0 18px 40px rgba(58,48,96,.18); }
+.hcard:active { transform: scale(.96); }
+.hcard .hicon { font-size: 42px; display: block; margin-bottom: 10px; transition: transform .2s; }
+.hcard:hover .hicon { transform: scale(1.2) rotate(-8deg); }
+.hcard .hlabel { font-family: 'Baloo 2', cursive; font-size: 13.5px; font-weight: 700; color: var(--text); line-height: 1.3; }
+
+/* pastel card backgrounds */
+.g0  { background: linear-gradient(145deg, #FFF0F5, #FFD6E8); }
+.g1  { background: linear-gradient(145deg, #FFF4E8, #FFE2C0); }
+.g2  { background: linear-gradient(145deg, #FFFDE0, #FFF5A0); }
+.g3  { background: linear-gradient(145deg, #EDFFF6, #C0F5DC); }
+.g4  { background: linear-gradient(145deg, #EDF8FF, #BFE8FF); }
+.g5  { background: linear-gradient(145deg, #F5F0FF, #E2D4FF); }
+.g6  { background: linear-gradient(145deg, #FFF0FA, #FFD6F0); }
+.g7  { background: linear-gradient(145deg, #EDFFF8, #C0F5E8); }
+
+/* ═══════════════════════════════════════
+   SECTION SHELL
+═══════════════════════════════════════ */
+.sec-bar {
+  display: flex; align-items: center; gap: 14px;
+  padding: 22px 0 16px;
+  position: sticky; top: 0; z-index: 20;
+  background: transparent;
+}
+.back-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: none; cursor: pointer;
+  font-family: 'Baloo 2', cursive; font-size: 15px; font-weight: 700;
+  background: white;
+  color: var(--text);
+  box-shadow: 0 3px 14px rgba(100,50,200,.18);
+  transition: transform .15s, box-shadow .15s;
+  flex-shrink: 0;
+}
+.back-pill:hover { transform: translateX(-4px); box-shadow: 0 6px 20px rgba(58,48,96,.18); }
+.sec-title-row { display: flex; align-items: center; gap: 10px; }
+.sec-emoji { font-size: 30px; }
+.sec-title { font-family: 'Baloo 2', cursive; font-size: 26px; font-weight: 800; color: var(--text); }
+
+/* TABS */
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.tab {
+  padding: 8px 22px; border-radius: 100px; border: none; cursor: pointer;
+  font-family: 'Baloo 2', cursive; font-size: 15px; font-weight: 700;
+  background: white; color: var(--soft);
+  box-shadow: 0 3px 10px rgba(58,48,96,.10);
+  transition: all .18s cubic-bezier(.34,1.56,.64,1);
+}
+.tab:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(58,48,96,.16); }
+.tab.active { background: linear-gradient(135deg, #C4A0FF, #FF9FC8); color: white; box-shadow: 0 4px 16px rgba(180,140,255,.35); }
+
+/* ═══════════════════════════════════════
+   SHARED COMPONENTS
+═══════════════════════════════════════ */
+
+/* question bubble */
+.qbubble {
+  background: white;
+  border-radius: 32px;
+  padding: 32px 24px;
+  text-align: center;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 32px rgba(58,48,96,.12), 0 2px 8px rgba(58,48,96,.07);
+  position: relative;
+  overflow: hidden;
+}
+.qbubble::before {
+  content: '';
+  position: absolute;
+  inset: 0; opacity: .07;
+  background: linear-gradient(135deg, #FF9FD2, #80D0F5, #FFE880);
+  border-radius: 32px;
+}
+.q-hint { font-size: 15px; font-weight: 600; color: var(--soft); margin-bottom: 6px; }
+.q-main { font-family: 'Baloo 2', cursive; font-size: 48px; font-weight: 800; color: var(--text); line-height: 1.1; }
+.q-emoji { font-size: 64px; margin-bottom: 6px; display: block; }
+
+/* choices */
+.choices { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 16px; }
+.choice {
+  padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer;
+  font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 700;
+  background: white; color: var(--text);
+  box-shadow: 0 4px 16px rgba(58,48,96,.13);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .15s, background .15s;
+}
+.choice:hover:not(:disabled) { transform: translateY(-4px) scale(1.06); box-shadow: 0 10px 28px rgba(58,48,96,.2); }
+.choice:active:not(:disabled) { transform: scale(.94); }
+.choice.correct { background: linear-gradient(135deg, #6BE8A8, #3DD68A); color: white; box-shadow: 0 6px 20px rgba(60,210,130,.4); }
+.choice.wrong   { background: linear-gradient(135deg, #FF8FAA, #FF6088); color: white; box-shadow: 0 6px 20px rgba(255,96,136,.4); }
+
+/* feedback */
+.feedback {
+  font-family: 'Baloo 2', cursive; font-size: 22px; font-weight: 700;
+  text-align: center; min-height: 36px; padding: 4px 0;
+}
+.feedback.good { color: #1A8A50; }
+.feedback.bad  { color: #CC2255; }
+
+/* next button */
+.next-btn {
+  display: none; margin: 14px auto 0;
+  padding: 13px 40px; border-radius: 100px; border: none; cursor: pointer;
+  font-family: 'Baloo 2', cursive; font-size: 19px; font-weight: 700;
+  background: linear-gradient(135deg, #FFB347, #FFE566);
+  color: #5A3A00;
+  box-shadow: 0 6px 20px rgba(255,200,80,.4);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.next-btn.show { display: block; }
+.next-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 12px 32px rgba(255,159,91,.5); }
+
+/* progress dots */
+.pdots { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+.pdot { width: 13px; height: 13px; border-radius: 50%; background: rgba(58,48,96,.12); transition: all .3s cubic-bezier(.34,1.56,.64,1); }
+.pdot.done { background: #5DD88A; transform: scale(1.3); box-shadow: 0 2px 10px rgba(80,210,130,.5); }
+
+/* floating card */
+.fcard {
+  background: white; border-radius: 28px;
+  padding: 24px 22px; margin-bottom: 18px;
+  box-shadow: 0 6px 24px rgba(58,48,96,.10), 0 2px 8px rgba(58,48,96,.06);
+}
+
+/* detail pop */
+.detail-pop {
+  border-radius: 28px; padding: 24px;
+  margin-top: 18px;
+  text-align: center;
+  box-shadow: 0 10px 36px rgba(58,48,96,.14);
+  animation: popIn .35s cubic-bezier(.34,1.56,.64,1);
+}
+.detail-pop .dp-icon  { font-size: 60px; display: block; margin-bottom: 10px; }
+.detail-pop .dp-title { font-family: 'Baloo 2', cursive; font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.detail-pop .dp-text  { font-size: 16px; font-weight: 600; color: var(--soft); line-height: 1.6; }
+
+/* general button */
+.btn {
+  padding: 11px 28px; border-radius: 100px; border: none; cursor: pointer;
+  font-family: 'Baloo 2', cursive; font-size: 17px; font-weight: 700;
+  background: white; color: var(--text);
+  box-shadow: 0 4px 14px rgba(58,48,96,.13);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+  display: inline-block; margin: 4px;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(58,48,96,.2); }
+.btn:active { transform: scale(.95); }
+.btn-pink { background: linear-gradient(135deg, #FF9FD2, #FFB8E0); color: #7A1A50; box-shadow: 0 4px 18px rgba(255,160,210,.4); }
+.btn-green { background: linear-gradient(135deg, #80E8B8, #A0F5D0); color: #1A6B3A; box-shadow: 0 4px 18px rgba(120,230,180,.4); }
+.btn-blue  { background: linear-gradient(135deg, #80D0F5, #A8E4FF); color: #0A4A7A; box-shadow: 0 4px 18px rgba(120,200,245,.4); }
+
+/* score wrap */
+.score-wrap { text-align: center; padding: 40px 0; }
+.score-big  { font-size: 80px; }
+.score-msg  { font-family: 'Baloo 2', cursive; font-size: 30px; font-weight: 800; color: var(--text); margin-top: 10px; }
+
+/* ═══════════════════════════════════════
+   LETTERS
+═══════════════════════════════════════ */
+.lgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px,1fr)); gap: 9px; }
+.ltile {
+  aspect-ratio: 1; border-radius: 18px; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Baloo 2', cursive; font-size: 22px; font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(58,48,96,.12);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.ltile:hover { transform: scale(1.18) rotate(-5deg); box-shadow: 0 8px 24px rgba(58,48,96,.2); }
+.ltu  { background: linear-gradient(145deg, #D0EEFF, #A8D8FF); color: #1A5C9E; }
+.ltl  { background: linear-gradient(145deg, #CCFAE2, #A0F0C4); color: #1A6B3A; }
+.ltn  { background: linear-gradient(145deg, #FFF5B0, #FFE878); color: #7A5A00; }
+
+/* match cols */
+.match-wrap { display: flex; gap: 20px; flex-wrap: wrap; }
+.match-col  { display: flex; flex-direction: column; gap: 8px; }
+.match-col h4 { font-family: 'Baloo 2', cursive; font-size: 15px; font-weight: 700; color: var(--soft); margin-bottom: 2px; }
+
+/* ═══════════════════════════════════════
+   COLORS
+═══════════════════════════════════════ */
+.clearn-wrap { display: flex; flex-wrap: wrap; gap: 14px; }
+.cswatch { display: flex; flex-direction: column; align-items: center; gap: 7px; cursor: pointer; }
+.cswatch-dot {
+  width: 66px; height: 66px; border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(58,48,96,.2);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+}
+.cswatch:hover .cswatch-dot { transform: scale(1.18) rotate(-8deg); }
+.cswatch-name { font-family: 'Baloo 2', cursive; font-size: 13px; font-weight: 700; color: var(--text); }
+
+/* mixer */
+.mixer-ball {
+  width: 130px; height: 130px; border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(150,120,220,.2), inset 0 -6px 16px rgba(0,0,0,.08);
+  margin: 16px auto; transition: background .5s cubic-bezier(.34,1.56,.64,1);
+}
+.mpicks { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 14px 0; }
+.mpick {
+  width: 68px; height: 68px; border-radius: 50%; border: none; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(58,48,96,.18);
+  display: flex; align-items: flex-end; justify-content: center; padding-bottom: 7px;
+  font-size: 11px; font-weight: 700; color: rgba(0,0,0,.5);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.mpick:hover { transform: scale(1.16); }
+.mpick.sel   { transform: scale(1.16); box-shadow: 0 0 0 5px white, 0 0 0 8px var(--sunshine), 0 8px 24px rgba(58,48,96,.2); }
+
+/* ═══════════════════════════════════════
+   SHAPES
+═══════════════════════════════════════ */
+.shape-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(136px,1fr)); gap: 14px; }
+.shape-tile {
+  background: white; border-radius: 26px;
+  padding: 18px 10px 14px; text-align: center; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(58,48,96,.11);
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.shape-tile:hover { transform: translateY(-8px) rotate(-3deg); box-shadow: 0 16px 36px rgba(58,48,96,.18); }
+.shape-name { font-family: 'Baloo 2', cursive; font-size: 15px; font-weight: 800; color: var(--text); margin-top: 8px; }
+
+/* ═══════════════════════════════════════
+   COUNTING
+═══════════════════════════════════════ */
+.cdots { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 18px 0; }
+.cdot {
+  width: 56px; height: 56px; border-radius: 50%; border: none; cursor: pointer;
+  font-size: 24px; background: white;
+  box-shadow: 0 4px 16px rgba(58,48,96,.14);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), background .2s, box-shadow .2s;
+}
+.cdot:hover { transform: scale(1.18) rotate(-5deg); box-shadow: 0 8px 24px rgba(58,48,96,.2); }
+.cdot.done { background: linear-gradient(145deg, #80EDBA, #40D890); box-shadow: 0 6px 18px rgba(60,210,140,.4); transform: scale(1.12); }
+
+/* ═══════════════════════════════════════
+   NAME GAME
+═══════════════════════════════════════ */
+.ninput {
+  font-family: 'Baloo 2', cursive; font-size: 22px; font-weight: 700;
+  padding: 12px 22px; border-radius: 100px; border: 2.5px solid rgba(58,48,96,.15);
+  background: white; color: var(--text); width: 100%; max-width: 340px;
+  box-shadow: 0 4px 16px rgba(58,48,96,.1); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.ninput:focus { border-color: #5BC8F5; box-shadow: 0 4px 20px rgba(90,200,245,.3); }
+.nslots { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; justify-content: center; }
+.nslot {
+  width: 56px; height: 64px;
+  border-bottom: 4px solid rgba(58,48,96,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Baloo 2', cursive; font-size: 30px; font-weight: 800; color: var(--text);
+  transition: border-color .2s;
+}
+.nslot.filled { border-color: #5BC8F5; color: #1A7ABF; }
+.nletters { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin: 12px 0; }
+.nletter {
+  width: 56px; height: 56px; border-radius: 18px; border: none;
+  background: linear-gradient(145deg, #D0EEFF, #A8D8FF);
+  color: #1A5C9E; cursor: pointer;
+  font-family: 'Baloo 2', cursive; font-size: 26px; font-weight: 800;
+  box-shadow: 0 4px 14px rgba(110,198,245,.35);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1);
+  display: flex; align-items: center; justify-content: center;
+}
+.nletter:hover { transform: scale(1.18) rotate(-5deg); }
+.nletter.gone  { opacity: .18; pointer-events: none; }
+
+/* ═══════════════════════════════════════
+   EMOTIONS
+═══════════════════════════════════════ */
+.emotion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px,1fr)); gap: 14px; }
+.etile {
+  background: white; border-radius: 26px;
+  padding: 18px 10px 14px; text-align: center; cursor: pointer;
+  box-shadow: 0 5px 18px rgba(58,48,96,.1);
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.etile:hover { transform: translateY(-7px) scale(1.05); box-shadow: 0 14px 32px rgba(58,48,96,.17); }
+.eface  { font-size: 40px; display: block; margin-bottom: 8px; }
+.ename  { font-family: 'Baloo 2', cursive; font-size: 14px; font-weight: 800; color: var(--text); }
+
+/* ═══════════════════════════════════════
+   PATTERNS
+═══════════════════════════════════════ */
+.prow { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; margin: 18px 0; }
+.pitem {
+  width: 54px; height: 54px; border-radius: 16px;
+  background: rgba(58,48,96,.06);
+  display: flex; align-items: center; justify-content: center; font-size: 28px;
+}
+.pblank {
+  width: 54px; height: 54px; border-radius: 16px;
+  border: 3px dashed var(--tangerine); background: rgba(255,159,91,.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: var(--tangerine); font-weight: 800; cursor: pointer;
+  transition: background .2s;
+}
+.pblank:hover { background: rgba(255,209,102,.25); }
+
+/* ═══════════════════════════════════════
+   SIZE COMPARE
+═══════════════════════════════════════ */
+.cmp-wrap { display: flex; gap: 20px; align-items: flex-end; justify-content: center; flex-wrap: wrap; margin: 18px 0; }
+.cmp-choice {
+  background: white; border-radius: 24px; padding: 16px 22px;
+  text-align: center; cursor: pointer;
+  box-shadow: 0 5px 18px rgba(58,48,96,.11);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.cmp-choice:hover { transform: translateY(-8px) scale(1.05); box-shadow: 0 14px 30px rgba(58,48,96,.18); }
+
+/* ═══════════════════════════════════════
+   ICON GRIDS (animals, body, weather)
+═══════════════════════════════════════ */
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(114px,1fr)); gap: 14px; }
+.itile {
+  background: white; border-radius: 26px;
+  padding: 18px 10px 14px; text-align: center; cursor: pointer;
+  box-shadow: 0 5px 18px rgba(58,48,96,.10);
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.itile:hover { transform: translateY(-7px) scale(1.05); box-shadow: 0 16px 34px rgba(58,48,96,.18); }
+.ticon { font-size: 40px; display: block; margin-bottom: 8px; }
+.tname { font-family: 'Baloo 2', cursive; font-size: 14px; font-weight: 800; color: var(--text); }
+
+/* ═══════════════════════════════════════
+   LIST (days, months)
+═══════════════════════════════════════ */
+.list-item {
+  display: flex; align-items: center; gap: 16px;
+  background: white; border-radius: 100px;
+  padding: 12px 22px; margin-bottom: 10px; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(58,48,96,.09);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+  font-family: 'Baloo 2', cursive; font-size: 19px; font-weight: 700; color: var(--text);
+}
+.list-item:hover { transform: translateX(8px); box-shadow: 0 8px 24px rgba(58,48,96,.17); }
+.list-num {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 800; color: white; flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════
+   SEASONS
+═══════════════════════════════════════ */
+.scard {
+  border-radius: 28px; padding: 22px;
+  margin-bottom: 16px; cursor: pointer;
+  box-shadow: 0 6px 22px rgba(58,48,96,.11);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .15s;
+}
+.scard:hover { transform: translateX(8px); box-shadow: 0 14px 36px rgba(58,48,96,.18); }
+.scard-head { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+.scard-icon { font-size: 46px; }
+.scard-name { font-family: 'Baloo 2', cursive; font-size: 28px; font-weight: 800; color: var(--text); }
+.scard-desc { font-size: 15px; font-weight: 600; color: var(--soft); line-height: 1.55; margin-bottom: 8px; }
+.scard-fun  { font-size: 14px; font-weight: 700; color: var(--soft); }
+.scard-fun span { color: var(--text); }
+
+/* ═══════════════════════════════════════
+   TRACING
+═══════════════════════════════════════ */
+.trace-wrap { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
+.tselect {
+  font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 700;
+  padding: 10px 22px; border-radius: 100px; border: none;
+  background: white; color: var(--text);
+  box-shadow: 0 4px 14px rgba(58,48,96,.13); cursor: pointer; outline: none;
+}
+#trace-canvas {
+  display: block; margin: 0 auto;
+  border-radius: 28px;
+  background: white;
+  box-shadow: 0 8px 32px rgba(58,48,96,.15);
+  cursor: crosshair; touch-action: none;
+}
+
+/* ═══════════════════════════════════════
+   RHYME
+═══════════════════════════════════════ */
+.rhyme-word {
+  font-family: 'Baloo 2', cursive; font-size: 52px; font-weight: 800;
+  color: #FF6BA0; text-align: center; margin: 14px 0;
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+#toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--text); color: white;
+  font-family: 'Baloo 2', cursive; font-size: 18px; font-weight: 700;
+  padding: 12px 30px; border-radius: 100px;
+  box-shadow: 0 8px 28px rgba(58,48,96,.3);
+  z-index: 999; opacity: 0; pointer-events: none;
+  transition: all .35s cubic-bezier(.34,1.56,.64,1);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ═══════════════════════════════════════
+   HINT TEXT
+═══════════════════════════════════════ */
+.hint { font-size: 14.5px; font-weight: 600; color: var(--soft); margin-bottom: 16px; }
+
+/* ═══════════════════════════════════════
+   MONTHS GRID
+═══════════════════════════════════════ */
+.months-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 10px; }
+
+@media (max-width:500px) {
+  .home-grid { grid-template-columns: repeat(2,1fr); }
+  .hcard .hicon { font-size: 34px; }
+  .q-main { font-size: 38px; }
+  .lgrid  { grid-template-columns: repeat(auto-fill,minmax(46px,1fr)); }
+}
+</style>
+</head>
+<body>
+
+<div class="blobs" id="blobs"></div>
+<div id="toast"></div>
+
+<div id="app">
+
+<!-- HOME -->
+<div id="s-home" class="screen active">
+  <div class="home-hero">
+    <span class="hero-mascot">🌈</span>
+    <h1 class="hero-title">Ready for Preschool!</h1>
+    <p class="hero-sub">Tap something to start learning! ✨</p>
+  </div>
+  <div class="home-grid" id="home-grid"></div>
+</div>
+
+<!-- LETTERS -->
+<div id="s-letters" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🔤</span><span class="sec-title">Letters A–Z</span></div></div>
+  <div class="tabs"><button class="tab active" onclick="setLetterTab('upper',this)">Uppercase</button><button class="tab" onclick="setLetterTab('lower',this)">Lowercase</button><button class="tab" onclick="setLetterTab('match',this)">Match them!</button></div>
+  <div id="letters-c"></div>
+</div>
+
+<!-- PHONICS -->
+<div id="s-phonics" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🔊</span><span class="sec-title">Letter sounds</span></div></div>
+  <p class="hint">Tap a letter to hear its sound!</p>
+  <div class="lgrid" id="phonics-g"></div>
+  <div id="phonics-r" style="display:none;margin-top:20px;"></div>
+</div>
+
+<!-- NAME -->
+<div id="s-name" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">✏️</span><span class="sec-title">Spell your name</span></div></div>
+  <div class="fcard">
+    <p class="hint">Type your name, then tap the letters to spell it!</p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <input class="ninput" id="name-in" type="text" placeholder="Type your name..." maxlength="12" oninput="buildName()" autocomplete="off"/>
+      <button class="btn btn-pink" onclick="resetName()">Reset</button>
+    </div>
+  </div>
+  <div id="name-g"></div>
+</div>
+
+<!-- COLORS -->
+<div id="s-colors" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🎨</span><span class="sec-title">Colors</span></div></div>
+  <div class="tabs"><button class="tab active" onclick="setColorTab('learn',this)">Learn</button><button class="tab" onclick="setColorTab('quiz',this)">Quiz</button><button class="tab" onclick="setColorTab('mix',this)">Color Mixer 🎨</button></div>
+  <div id="colors-c"></div>
+</div>
+
+<!-- SHAPES -->
+<div id="s-shapes" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🔷</span><span class="sec-title">Shapes</span></div></div>
+  <div class="tabs"><button class="tab active" onclick="setShapeTab('learn',this)">Learn</button><button class="tab" onclick="setShapeTab('quiz',this)">Quiz</button></div>
+  <div id="shapes-c"></div>
+</div>
+
+<!-- NUMBERS -->
+<div id="s-numbers" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🔢</span><span class="sec-title">Counting 1–10</span></div></div>
+  <div id="counting-a"></div>
+</div>
+
+<!-- ADDITION -->
+<div id="s-addition" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">➕</span><span class="sec-title">Simple addition</span></div></div>
+  <div class="pdots" id="add-p"></div>
+  <div id="add-a"></div>
+</div>
+
+<!-- DAYS -->
+<div id="s-days" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">📅</span><span class="sec-title">Days of the week</span></div></div>
+  <div class="tabs"><button class="tab active" onclick="setDayTab('learn',this)">Learn</button><button class="tab" onclick="setDayTab('quiz',this)">Quiz</button></div>
+  <div id="days-c"></div>
+</div>
+
+<!-- MONTHS -->
+<div id="s-months" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🗓️</span><span class="sec-title">Months of the year</span></div></div>
+  <div class="tabs"><button class="tab active" onclick="setMonthTab('learn',this)">Learn</button><button class="tab" onclick="setMonthTab('quiz',this)">Quiz</button></div>
+  <div id="months-c"></div>
+</div>
+
+<!-- EMOTIONS -->
+<div id="s-emotions" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">😊</span><span class="sec-title">Feelings</span></div></div>
+  <p class="hint">Tap a feeling to learn about it!</p>
+  <div class="emotion-grid" id="emotion-g"></div>
+  <div id="emotion-d" style="display:none;"></div>
+</div>
+
+<!-- PATTERNS -->
+<div id="s-patterns" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🟦</span><span class="sec-title">Patterns</span></div></div>
+  <div class="pdots" id="pat-p"></div>
+  <div id="pat-a"></div>
+</div>
+
+<!-- SIZE -->
+<div id="s-size" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">📏</span><span class="sec-title">Big and small</span></div></div>
+  <div id="size-a"></div>
+</div>
+
+<!-- ANIMALS -->
+<div id="s-animals" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🐾</span><span class="sec-title">Animal sounds</span></div></div>
+  <p class="hint">Tap an animal to hear its sound!</p>
+  <div class="icon-grid" id="animals-g"></div>
+  <div id="animals-d" style="display:none;"></div>
+</div>
+
+<!-- BODY -->
+<div id="s-body" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🙆</span><span class="sec-title">Body parts</span></div></div>
+  <p class="hint">Tap a body part to learn about it!</p>
+  <div class="icon-grid" id="body-g"></div>
+  <div id="body-d" style="display:none;"></div>
+</div>
+
+<!-- SEASONS -->
+<div id="s-seasons" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🌸</span><span class="sec-title">Seasons</span></div></div>
+  <div id="seasons-a"></div>
+</div>
+
+<!-- WEATHER -->
+<div id="s-weather" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">⛅</span><span class="sec-title">Weather</span></div></div>
+  <p class="hint">What kind of weather is it?</p>
+  <div class="icon-grid" id="weather-g"></div>
+  <div id="weather-d" style="display:none;"></div>
+</div>
+
+<!-- RHYMING -->
+<div id="s-rhyming" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">🎵</span><span class="sec-title">Rhyming</span></div></div>
+  <div class="pdots" id="rhy-p"></div>
+  <div id="rhy-a"></div>
+</div>
+
+<!-- TRACE -->
+<div id="s-trace" class="screen">
+  <div class="sec-bar"><button class="back-pill" onclick="goHome()">← Home</button><div class="sec-title-row"><span class="sec-emoji">✍️</span><span class="sec-title">Tracing</span></div></div>
+  <div class="trace-wrap">
+    <select id="tsel" class="tselect" onchange="loadTrace()"></select>
+    <button class="btn btn-blue" onclick="clearTrace()">Clear ✨</button>
+  </div>
+  <canvas id="trace-canvas" width="360" height="280"></canvas>
+  <p id="tlabel" style="text-align:center;font-size:14px;font-weight:600;color:var(--soft);margin-top:12px;"></p>
+</div>
+
+</div><!-- /app -->
+<script>
+/* ── BLOBS ── */
+(()=>{
+  const cols=['#FFB3CC','#FFD09A','#FFF0A0','#A8F0CC','#A8DCFF','#D4BCFF','#FFBDE0'];
+  const b=document.getElementById('blobs');
+  for(let i=0;i<10;i++){
+    const el=document.createElement('div'); el.className='blob';
+    const s=90+Math.random()*180;
+    el.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*110-10}%;top:${Math.random()*110-10}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*14}s,${14+Math.random()*16}s;animation-delay:${-Math.random()*14}s,${-Math.random()*16}s;`;
+    b.appendChild(el);
+  }
+})();
+
+/* ── SECTIONS ── */
+const SECS=[
+  {id:'letters', icon:'🔤', label:'Letters A–Z',     g:0},
+  {id:'phonics', icon:'🔊', label:'Letter sounds',   g:1},
+  {id:'name',    icon:'✏️', label:'Spell your name', g:2},
+  {id:'colors',  icon:'🎨', label:'Colors',          g:3},
+  {id:'shapes',  icon:'🔷', label:'Shapes',          g:4},
+  {id:'numbers', icon:'🔢', label:'Counting 1–10',   g:5},
+  {id:'addition',icon:'➕', label:'Simple addition',  g:6},
+  {id:'days',    icon:'📅', label:'Days of the week',g:7},
+  {id:'months',  icon:'🗓️', label:'Months of the year',g:0},
+  {id:'emotions',icon:'😊', label:'Feelings',        g:1},
+  {id:'patterns',icon:'🟦', label:'Patterns',        g:2},
+  {id:'size',    icon:'📏', label:'Big and small',   g:3},
+  {id:'animals', icon:'🐾', label:'Animal sounds',   g:4},
+  {id:'body',    icon:'🙆', label:'Body parts',      g:5},
+  {id:'seasons', icon:'🌸', label:'Seasons',         g:6},
+  {id:'weather', icon:'⛅', label:'Weather',          g:7},
+  {id:'rhyming', icon:'🎵', label:'Rhyming',         g:0},
+  {id:'trace',   icon:'✍️', label:'Tracing',         g:1},
+];
+const hg=document.getElementById('home-grid');
+SECS.forEach((s,i)=>{
+  const d=document.createElement('div');
+  d.className=`hcard g${s.g}`;
+  d.style.animationDelay=`${i*0.05}s`;
+  d.innerHTML=`<span class="hicon">${s.icon}</span><div class="hlabel">${s.label}</div>`;
+  d.onclick=()=>open$(s.id);
+  hg.appendChild(d);
+});
+
+const INITS={letters:iLetters,phonics:iPhonics,colors:iColors,shapes:iShapes,numbers:iNumbers,addition:iAddition,days:iDays,months:iMonths,emotions:iEmotions,patterns:iPatterns,size:iSize,animals:iAnimals,body:iBody,seasons:iSeasons,weather:iWeather,rhyming:iRhyming,trace:iTrace};
+function open$(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  if(INITS[id]) INITS[id]();
+}
+function goHome(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-home').classList.add('active');
+  window.scrollTo(0,0);
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),1800);}
+function say(txt,rate=.85){if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.rate=rate;speechSynthesis.speak(u);}
+
+/* ── DATA ── */
+const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const PH={A:'Apple 🍎',B:'Ball ⚽',C:'Cat 🐱',D:'Dog 🐶',E:'Egg 🥚',F:'Fish 🐟',G:'Goat 🐐',H:'Hat 🎩',I:'Ice cream 🍦',J:'Jar 🫙',K:'Kite 🪁',L:'Lion 🦁',M:'Moon 🌙',N:'Nest 🪹',O:'Orange 🍊',P:'Pig 🐷',Q:'Queen 👑',R:'Rainbow 🌈',S:'Sun ☀️',T:'Tree 🌳',U:'Umbrella ☂️',V:'Van 🚐',W:'Water 💧',X:'X-ray 🦴',Y:'Yarn 🧶',Z:'Zebra 🦓'};
+const SCOLS=['#FF9FBE','#FFB870','#FFE566','#70D8A0','#70C8F5','#C4A8F5','#FF9FD2','#70E8C0'];
+
+/* ── LETTERS ── */
+function iLetters(){setLetterTab('upper',document.querySelector('#s-letters .tab'));}
+function setLetterTab(m,btn){
+  document.querySelectorAll('#s-letters .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const c=document.getElementById('letters-c');
+  if(m==='upper') c.innerHTML='<div class="lgrid">'+ABC.map(l=>`<div class="ltile ltu" onclick="say('${l}')">${l}</div>`).join('')+'</div><p class="hint" style="margin-top:12px;">Tap any letter to hear it!</p>';
+  else if(m==='lower') c.innerHTML='<div class="lgrid">'+ABC.map(l=>`<div class="ltile ltl" onclick="say('${l.toLowerCase()}')">${l.toLowerCase()}</div>`).join('')+'</div><p class="hint" style="margin-top:12px;">Tap any letter to hear it!</p>';
+  else startMatch(c);
+}
+let _ms=null,_md=new Set();
+function startMatch(c){
+  _ms=null;_md=new Set();
+  const ls=ABC.slice(0,13);
+  const up=[...ls].sort(()=>Math.random()-.5), lo=[...ls].sort(()=>Math.random()-.5);
+  c.innerHTML=`<p class="hint">Match each uppercase letter to its lowercase twin!</p>
+  <div class="match-wrap">
+    <div class="match-col"><h4>Uppercase</h4><div id="ucol" style="display:flex;flex-direction:column;gap:8px;"></div></div>
+    <div class="match-col"><h4>Lowercase</h4><div id="lcol" style="display:flex;flex-direction:column;gap:8px;"></div></div>
+  </div>
+  <div class="feedback" id="mfb" style="margin-top:14px;"></div>
+  <button class="btn" onclick="startMatch(document.getElementById('letters-c'))" style="margin-top:10px;">Shuffle 🔀</button>`;
+  up.forEach(l=>{const t=mk('div','ltile ltu',l);t.style.cssText='width:50px;height:50px;cursor:pointer;border-radius:16px;';t.dataset.v=l;t.dataset.tp='u';t.onclick=()=>doMatch(t);document.getElementById('ucol').appendChild(t);});
+  lo.forEach(l=>{const t=mk('div','ltile ltl',l.toLowerCase());t.style.cssText='width:50px;height:50px;cursor:pointer;border-radius:16px;';t.dataset.v=l;t.dataset.tp='l';t.onclick=()=>doMatch(t);document.getElementById('lcol').appendChild(t);});
+}
+function doMatch(tile){
+  if(tile.style.opacity==='0.2')return;
+  if(!_ms){_ms=tile;tile.style.outline='4px solid #FFD166';return;}
+  if(_ms===tile){_ms=null;tile.style.outline='';return;}
+  const a=_ms,b=tile; a.style.outline='';
+  if(a.dataset.v.toUpperCase()===b.dataset.v.toUpperCase()){
+    a.style.opacity='0.2';b.style.opacity='0.2';_md.add(a.dataset.v.toUpperCase());say(a.dataset.v.toUpperCase());
+    const fb=document.getElementById('mfb');fb.textContent='✅ Match!';fb.className='feedback good';
+    if(_md.size===13)setTimeout(()=>{fb.textContent='🎉 All matched! Amazing!';},400);
+  }else{const fb=document.getElementById('mfb');fb.textContent='❌ Try again!';fb.className='feedback bad';}
+  _ms=null;
+}
+
+/* ── PHONICS ── */
+function iPhonics(){
+  document.getElementById('phonics-g').innerHTML=ABC.map(l=>`<div class="ltile ltn" onclick="showPh('${l}')">${l}</div>`).join('');
+  document.getElementById('phonics-r').style.display='none';
+}
+function showPh(l){
+  const box=document.getElementById('phonics-r');box.style.display='block';
+  box.innerHTML=`<div class="qbubble"><div class="q-hint">The letter ${l} says...</div><div class="q-main">"${l.toLowerCase()}" — ${PH[l]}</div></div>`;
+  say(`${l} says ${l.toLowerCase()}… like ${PH[l].replace(/[^\w ]/g,'')}`);
+}
+
+/* ── NAME ── */
+let _ng={n:'',placed:[],av:[]};
+function buildName(){
+  const raw=document.getElementById('name-in').value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,12);
+  _ng={n:raw,placed:Array(raw.length).fill(''),av:[...raw].sort(()=>Math.random()-.5)};
+  renderName();
+}
+function renderName(){
+  const a=document.getElementById('name-g'); if(!_ng.n){a.innerHTML='';return;}
+  const slots=_ng.placed.map((c,i)=>`<div class="nslot${c?' filled':''}">${c||''}</div>`).join('');
+  const lets=_ng.av.map((c,i)=>c?`<div class="nletter" onclick="placeN(${i})">${c}</div>`:`<div class="nletter gone"> </div>`).join('');
+  const done=_ng.placed.every(c=>c);
+  a.innerHTML=`<div class="fcard" style="margin-top:16px;">
+    <p class="hint">Fill in the slots:</p><div class="nslots">${slots}</div>
+    <p class="hint" style="margin-top:12px;">Tap a letter:</p><div class="nletters">${lets}</div>
+    ${done?`<div class="feedback good" style="font-size:24px;margin-top:12px;">🎉 You spelled ${_ng.n.charAt(0)+_ng.n.slice(1).toLowerCase()}!</div>`:''}
+    <button class="btn" onclick="buildName()" style="margin-top:12px;">Shuffle 🔀</button>
+  </div>`;
+}
+function placeN(i){
+  if(!_ng.av[i])return;
+  const ne=_ng.placed.indexOf(''); if(ne===-1)return;
+  if(_ng.av[i]===_ng.n[ne]){_ng.placed[ne]=_ng.av[i];_ng.av[i]='';say(_ng.n[ne]);renderName();}
+  else toast('Not next — try another! 🤔');
+}
+function resetName(){document.getElementById('name-in').value='';_ng={n:'',placed:[],av:[]};document.getElementById('name-g').innerHTML='';}
+
+/* ── COLORS ── */
+const COLORS=[
+  {n:'Red',h:'#FF6B8A'},{n:'Orange',h:'#FF9F5B'},{n:'Yellow',h:'#FFD166'},
+  {n:'Green',h:'#7ED8A4'},{n:'Blue',h:'#6EC6F5'},{n:'Purple',h:'#B5A9F5'},
+  {n:'Pink',h:'#F7A8C4'},{n:'Brown',h:'#92400e'},{n:'Black',h:'#444'},
+  {n:'White',h:'#EEE',brd:true},{n:'Gray',h:'#999'},
+];
+function iColors(){setColorTab('learn',document.querySelector('#s-colors .tab'));}
+function setColorTab(m,btn){
+  document.querySelectorAll('#s-colors .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const c=document.getElementById('colors-c');
+  if(m==='learn'){
+    c.innerHTML=`<div class="clearn-wrap">${COLORS.map(x=>`<div class="cswatch" onclick="say('${x.n}')"><div class="cswatch-dot" style="background:${x.h};${x.brd?'outline:2px solid #ccc;':''}" ></div><div class="cswatch-name">${x.n}</div></div>`).join('')}</div><p class="hint" style="margin-top:14px;">Tap any color to hear its name!</p>`;
+  }else if(m==='quiz'){startColorQ(c);}else{showMixer(c);}
+}
+function startColorQ(c){
+  const i=Math.floor(Math.random()*COLORS.length),ans=COLORS[i];
+  let ch=[ans];while(ch.length<4){const r=COLORS[Math.floor(Math.random()*COLORS.length)];if(!ch.find(x=>x.n===r.n))ch.push(r);}ch.sort(()=>Math.random()-.5);
+  c.innerHTML=`<div class="qbubble"><div class="q-hint">What color is this?</div><div style="width:100px;height:100px;border-radius:50%;background:${ans.h};margin:14px auto;box-shadow:0 8px 28px rgba(58,48,96,.2);"></div></div>
+  <div class="choices">${ch.map(x=>`<button class="choice" onclick="ansColor(this,'${x.n}','${ans.n}')">${x.n}</button>`).join('')}</div>
+  <div class="feedback" id="cfb"></div><button class="next-btn" id="cnx" onclick="setColorTab('quiz',document.querySelectorAll('#s-colors .tab')[1])">Next ➡️</button>`;
+}
+function ansColor(btn,ch,cor){
+  document.querySelectorAll('#colors-c .choice').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('cfb');
+  if(ch===cor){btn.classList.add('correct');fb.textContent='✅ Yes! That\'s '+cor+'!';fb.className='feedback good';say('Yes! '+cor);}
+  else{btn.classList.add('wrong');document.querySelectorAll('#colors-c .choice').forEach(b=>{if(b.textContent===cor)b.classList.add('correct');});fb.textContent='❌ It\'s '+cor+'!';fb.className='feedback bad';}
+  document.getElementById('cnx').classList.add('show');
+}
+const PRIM=[{n:'Red',h:'#FF6B8A',r:[255,107,138]},{n:'Yellow',h:'#FFD166',r:[255,209,102]},{n:'Blue',h:'#6EC6F5',r:[110,198,245]},{n:'White',h:'#F5F5F0',r:[245,245,240]}];
+function showMixer(c){
+  window._mx=[];
+  c.innerHTML=`<p class="hint">Pick 2 colors to mix together!</p>
+  <div class="mpicks">${PRIM.map((p,i)=>`<div class="mpick" id="mp${i}" style="background:${p.h};" onclick="mixSel(${i})">${p.n}</div>`).join('')}</div>
+  <div class="mixer-ball" id="mball" style="background:#e8e8e8;"></div>
+  <div style="font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:var(--text);text-align:center;min-height:32px;" id="mlbl"></div>
+  <button class="btn" onclick="setColorTab('mix',document.querySelectorAll('#s-colors .tab')[2])" style="display:block;margin:14px auto 0;">Reset 🔄</button>`;
+}
+function mixSel(i){
+  if(!window._mx)window._mx=[];
+  const ix=window._mx.findIndex(x=>x.i===i);
+  if(ix>-1)window._mx.splice(ix,1);else{if(window._mx.length>=2)window._mx.shift();window._mx.push({i,p:PRIM[i]});}
+  PRIM.forEach((_,j)=>{const el=document.getElementById('mp'+j);if(el)el.classList.toggle('sel',window._mx.some(x=>x.i===j));});
+  const ball=document.getElementById('mball'),lbl=document.getElementById('mlbl');
+  if(window._mx.length===2){
+    const[a,b]=window._mx.map(x=>x.p);
+    const r=Math.round((a.r[0]+b.r[0])/2),g=Math.round((a.r[1]+b.r[1])/2),bl=Math.round((a.r[2]+b.r[2])/2);
+    ball.style.background=`rgb(${r},${g},${bl})`;
+    const mm={'Red+Yellow':'Orange! 🍊','Yellow+Red':'Orange! 🍊','Red+Blue':'Purple! 💜','Blue+Red':'Purple! 💜','Yellow+Blue':'Green! 🌿','Blue+Yellow':'Green! 🌿','Red+White':'Pink! 🌸','White+Red':'Pink! 🌸','Blue+White':'Light blue! 💙','White+Blue':'Light blue! 💙','Yellow+White':'Light yellow! ☀️','White+Yellow':'Light yellow! ☀️'};
+    const k=a.n+'+'+b.n; lbl.textContent=mm[k]||a.n+' + '+b.n; say(lbl.textContent.replace(/[^\w ]/g,''));
+  }else if(window._mx.length===1){ball.style.background=window._mx[0].p.h;lbl.textContent='';}
+  else{ball.style.background='#e8e8e8';lbl.textContent='';}
+}
+
+/* ── SHAPES ── */
+const SHAPES=[
+  {n:'Circle',   s:(c)=>`<circle cx="60" cy="60" r="52" fill="${c}"/>`},
+  {n:'Square',   s:(c)=>`<rect x="6" y="6" width="108" height="108" rx="6" fill="${c}"/>`},
+  {n:'Triangle', s:(c)=>`<polygon points="60,6 114,114 6,114" fill="${c}"/>`},
+  {n:'Rectangle',s:(c)=>`<rect x="2" y="20" width="116" height="80" rx="6" fill="${c}"/>`},
+  {n:'Star',     s:(c)=>`<polygon points="60,4 73,44 115,44 82,68 94,108 60,84 26,108 38,68 5,44 47,44" fill="${c}"/>`},
+  {n:'Oval',     s:(c)=>`<ellipse cx="60" cy="60" rx="56" ry="38" fill="${c}"/>`},
+  {n:'Diamond',  s:(c)=>`<polygon points="60,4 116,60 60,116 4,60" fill="${c}"/>`},
+  {n:'Heart',    s:(c)=>`<path d="M60 95C20 60 4 40 24 24 44 8 60 28 60 28S76 8 96 24 100 60 60 95Z" fill="${c}"/>`},
+];
+function iShapes(){setShapeTab('learn',document.querySelector('#s-shapes .tab'));}
+function setShapeTab(m,btn){
+  document.querySelectorAll('#s-shapes .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const c=document.getElementById('shapes-c');
+  if(m==='learn'){
+    c.innerHTML=`<div class="shape-grid">${SHAPES.map((s,i)=>`<div class="shape-tile" onclick="say('${s.n}')"><svg width="90" height="90" viewBox="0 0 120 120">${s.s(SCOLS[i%SCOLS.length])}</svg><div class="shape-name">${s.n}</div></div>`).join('')}</div><p class="hint" style="margin-top:12px;">Tap any shape to hear its name!</p>`;
+  }else{startShapeQ(c);}
+}
+function startShapeQ(c){
+  const i=Math.floor(Math.random()*SHAPES.length),ans=SHAPES[i],col=SCOLS[i%SCOLS.length];
+  let ch=[ans];while(ch.length<4){const r=SHAPES[Math.floor(Math.random()*SHAPES.length)];if(!ch.find(x=>x.n===r.n))ch.push(r);}ch.sort(()=>Math.random()-.5);
+  c.innerHTML=`<div class="qbubble"><div class="q-hint">What shape is this?</div><svg width="110" height="110" viewBox="0 0 120 120" style="display:block;margin:0 auto;">${ans.s(col)}</svg></div>
+  <div class="choices">${ch.map(x=>`<button class="choice" onclick="ansShape(this,'${x.n}','${ans.n}')">${x.n}</button>`).join('')}</div>
+  <div class="feedback" id="sfb"></div><button class="next-btn" id="snx" onclick="setShapeTab('quiz',document.querySelectorAll('#s-shapes .tab')[1])">Next ➡️</button>`;
+}
+function ansShape(btn,ch,cor){
+  document.querySelectorAll('#shapes-c .choice').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('sfb');
+  if(ch===cor){btn.classList.add('correct');fb.textContent='✅ Yes! A '+cor+'!';fb.className='feedback good';say('Yes! '+cor);}
+  else{btn.classList.add('wrong');document.querySelectorAll('#shapes-c .choice').forEach(b=>{if(b.textContent===cor)b.classList.add('correct');});fb.textContent='❌ It\'s a '+cor+'!';fb.className='feedback bad';}
+  document.getElementById('snx').classList.add('show');
+}
+
+/* ── COUNTING ── */
+let _ct={t:0,c:0};
+function iNumbers(){_ct.t=Math.floor(Math.random()*10)+1;_ct.c=0;renderCount();}
+function renderCount(){
+  const ems=['⭐','🍎','🐶','🌸','🐟','🎈','🍦','🐣','🦋','🌈'];
+  const a=document.getElementById('counting-a');
+  a.innerHTML=`<div class="qbubble"><div class="q-hint">Count them!</div><div class="q-main">${_ct.t}</div></div>
+  <div class="cdots">${Array(_ct.t).fill(0).map((_,i)=>`<div class="cdot${i<_ct.c?' done':''}" onclick="tapDot(${i})">${i<_ct.c?'✓':ems[i%ems.length]}</div>`).join('')}</div>
+  <div class="feedback${_ct.c===_ct.t?' good':''}" id="cntfb">${_ct.c===_ct.t?'🎉 You counted '+_ct.t+'!':'Tap each one! ('+_ct.c+' of '+_ct.t+')'}</div>
+  ${_ct.c===_ct.t?`<button class="btn btn-green" onclick="iNumbers()" style="display:block;margin:16px auto 0;">Try another! 🎲</button>`:''}`;
+}
+function tapDot(i){if(i===_ct.c){_ct.c++;say(String(_ct.c));renderCount();}}
+
+/* ── ADDITION ── */
+let _aq={qs:[],idx:0};
+function iAddition(){
+  _aq={qs:[],idx:0};
+  for(let i=0;i<8;i++){const a=Math.floor(Math.random()*5)+1,b=Math.floor(Math.random()*5)+1;if(a+b<=10)_aq.qs.push({a,b});}
+  renderAddP();renderAddQ();
+}
+function renderAddP(){document.getElementById('add-p').innerHTML=_aq.qs.map((_,i)=>`<div class="pdot${i<_aq.idx?' done':''}"></div>`).join('');}
+function renderAddQ(){
+  const a=document.getElementById('add-a');
+  if(_aq.idx>=_aq.qs.length){a.innerHTML=`<div class="score-wrap"><div class="score-big">🎉</div><div class="score-msg">All done! Great job!</div><button class="btn btn-green" onclick="iAddition()" style="display:block;margin:20px auto 0;">Play again 🔄</button></div>`;return;}
+  const{a:x,b:y}=_aq.qs[_aq.idx],ans=x+y;
+  let ch=[ans];while(ch.length<4){const r=Math.floor(Math.random()*10)+1;if(!ch.includes(r))ch.push(r);}ch.sort(()=>Math.random()-.5);
+  a.innerHTML=`<div class="qbubble"><div class="q-main">${x} + ${y} = ?</div><div class="q-hint" style="font-size:22px;margin-top:8px;">${'⭐'.repeat(x)} + ${'⭐'.repeat(y)}</div></div>
+  <div class="choices">${ch.map(v=>`<button class="choice" onclick="ansAdd(this,${v},${ans})">${v}</button>`).join('')}</div>
+  <div class="feedback" id="afb"></div><button class="next-btn" id="anx" onclick="_aq.idx++;renderAddP();renderAddQ()">Next ➡️</button>`;
+}
+function ansAdd(btn,ch,cor){
+  document.querySelectorAll('#add-a .choice').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('afb');
+  if(ch===cor){btn.classList.add('correct');fb.textContent='✅ '+cor+'!';fb.className='feedback good';say('Yes! '+cor);}
+  else{btn.classList.add('wrong');document.querySelectorAll('#add-a .choice').forEach(b=>{if(Number(b.textContent)===cor)b.classList.add('correct');});fb.textContent='❌ The answer is '+cor;fb.className='feedback bad';}
+  document.getElementById('anx').classList.add('show');
+}
+
+/* ── DAYS ── */
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DCOLS=['#FF9FBE','#FFB870','#FFE566','#70D8A0','#70C8F5','#C4A8F5','#FF9FD2'];
+function iDays(){setDayTab('learn',document.querySelector('#s-days .tab'));}
+function setDayTab(m,btn){
+  document.querySelectorAll('#s-days .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const c=document.getElementById('days-c');
+  if(m==='learn'){
+    c.innerHTML=DAYS.map((d,i)=>`<div class="list-item" onclick="say('${d}')"><div class="list-num" style="background:${DCOLS[i]};">${i+1}</div>${d}</div>`).join('')+'<p class="hint" style="margin-top:8px;">Tap to hear each day!</p>';
+  }else{startDayQ(c);}
+}
+function startDayQ(c){
+  const i=Math.floor(Math.random()*7),ans=DAYS[i];
+  let ch=[ans];while(ch.length<4){const r=DAYS[Math.floor(Math.random()*7)];if(!ch.includes(r))ch.push(r);}ch.sort(()=>Math.random()-.5);
+  const prev=DAYS[(i+6)%7];
+  c.innerHTML=`<div class="qbubble"><div class="q-hint">What day comes after ${prev}?</div><div class="q-main" style="font-size:32px;">${prev} → ?</div></div>
+  <div class="choices">${ch.map(x=>`<button class="choice" onclick="ansDay(this,'${x}','${ans}')" style="font-size:16px;">${x}</button>`).join('')}</div>
+  <div class="feedback" id="dfb"></div><button class="next-btn" id="dnx" onclick="setDayTab('quiz',document.querySelectorAll('#s-days .tab')[1])">Next ➡️</button>`;
+}
+function ansDay(btn,ch,cor){
+  document.querySelectorAll('#days-c .choice').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('dfb');
+  if(ch===cor){btn.classList.add('correct');fb.textContent='✅ '+cor+'!';fb.className='feedback good';say(cor);}
+  else{btn.classList.add('wrong');document.querySelectorAll('#days-c .choice').forEach(b=>{if(b.textContent===cor)b.classList.add('correct');});fb.textContent='❌ It\'s '+cor+'!';fb.className='feedback bad';}
+  document.getElementById('dnx').classList.add('show');
+}
+
+/* ── MONTHS ── */
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function iMonths(){setMonthTab('learn',document.querySelector('#s-months .tab'));}
+function setMonthTab(m,btn){
+  document.querySelectorAll('#s-months .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const c=document.getElementById('months-c');
+  if(m==='learn'){
+    c.innerHTML='<div class="months-grid">'+MONTHS.map((mo,i)=>`<div class="list-item" onclick="say('${mo}')"><div class="list-num" style="background:${SCOLS[i%SCOLS.length]};font-size:13px;">${i+1}</div><span style="font-size:17px;">${mo}</span></div>`).join('')+'</div><p class="hint" style="margin-top:8px;">Tap to hear each month!</p>';
+  }else{startMonthQ(c);}
+}
+function startMonthQ(c){
+  const i=Math.floor(Math.random()*12),ans=MONTHS[i];
+  let ch=[ans];while(ch.length<4){const r=MONTHS[Math.floor(Math.random()*12)];if(!ch.includes(r))ch.push(r);}ch.sort(()=>Math.random()-.5);
+  c.innerHTML=`<div class="qbubble"><div class="q-hint">What is month number ${i+1}?</div><div class="q-main">${i+1}</div></div>
+  <div class="choices">${ch.map(x=>`<button class="choice" onclick="ansMon(this,'${x}','${ans}')" style="font-size:15px;">${x}</button>`).join('')}</div>
+  <div class="feedback" id="monfb"></div><button class="next-btn" id="monnx" onclick="setMonthTab('quiz',document.querySelectorAll('#s-months .tab')[1])">Next ➡️</button>`;
+}
+function ansMon(btn,ch,cor){
+  document.querySelectorAll('#months-c .choice').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('monfb');
+  if(ch===cor){btn.classList.add('correct');fb.textContent='✅ '+cor+'!';fb.className='feedback good';say(cor);}
+  else{btn.classList.add('wrong');document.querySelectorAll('#months-c .choice').forEach(b=>{if(b.textContent===cor)b.classList.add('correct');});fb.textContent='❌ It\'s '+cor+'!';fb.className='feedback bad';}
+  document.getElementById('monnx').classList.add('show');
+}
+
+/* ── EMOTIONS ── */
+const EMO=[
+  {f:'😊',n:'Happy',d:'I feel happy when good things happen — like playing with friends or getting a big hug!'},
+  {f:'😢',n:'Sad',d:'I feel sad when something goes wrong or I miss someone I love. It\'s okay to cry!'},
+  {f:'😠',n:'Angry',d:'I feel angry when things feel unfair. Take a deep breath — it helps!'},
+  {f:'😨',n:'Scared',d:'I feel scared of big or unknown things. It helps to talk to someone I trust!'},
+  {f:'😲',n:'Surprised',d:'I feel surprised when something unexpected happens — like a birthday party!'},
+  {f:'🤢',n:'Disgusted',d:'I feel disgusted when something is really yucky!'},
+  {f:'🥱',n:'Tired',d:'I feel tired when my body needs rest. Sleep helps me feel better!'},
+  {f:'🤩',n:'Excited',d:'I feel excited when something wonderful is about to happen!'},
+  {f:'😶',n:'Calm',d:'I feel calm and peaceful when everything feels safe and quiet.'},
+  {f:'🤗',n:'Loved',d:'I feel loved when people care about me and show it!'},
+  {f:'😔',n:'Lonely',d:'I feel lonely when I want to be with others but I\'m by myself.'},
+  {f:'🥳',n:'Proud',d:'I feel proud when I try hard and do something really great!'},
+];
+const ECOLORS=['#FFF0F5','#F0F3FF','#FFF0F0','#EDF4FF','#FFFBE8','#F0FFF0','#FFF0FC','#EDFFF8','#FFF5EE','#FAF0FF','#F0FFF3','#FDFFF0'];
+function iEmotions(){
+  document.getElementById('emotion-g').innerHTML=EMO.map((e,i)=>`<div class="etile" style="background:${ECOLORS[i]};" onclick="showEmo(${i})"><span class="eface">${e.f}</span><div class="ename">${e.n}</div></div>`).join('');
+  document.getElementById('emotion-d').style.display='none';
+}
+function showEmo(i){
+  const e=EMO[i],d=document.getElementById('emotion-d');
+  d.style.display='block';
+  d.innerHTML=`<div class="detail-pop" style="background:${ECOLORS[i]};"><span class="dp-icon">${e.f}</span><div class="dp-title">${e.n}</div><div class="dp-text">${e.d}</div></div>`;
+  say(e.n+'. '+e.d); d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ── PATTERNS ── */
+const PATS=[
+  {p:['🔴','🔵','🔴','🔵','🔴','🔵'],b:5,a:'🔵'},
+  {p:['⭐','⭐','🌙','⭐','⭐','🌙'],b:5,a:'🌙'},
+  {p:['🐱','🐶','🐱','🐶','🐱','🐶'],b:4,a:'🐱'},
+  {p:['🌸','🌼','🌸','🌸','🌼','🌸'],b:4,a:'🌸'},
+  {p:['🟦','🟩','🟥','🟦','🟩','🟥'],b:5,a:'🟥'},
+  {p:['🍎','🍊','🍋','🍎','🍊','🍋'],b:4,a:'🍎'},
+];
+let _ps={i:0,d:0};
+function iPatterns(){_ps={i:0,d:0};renderPP();renderPat();}
+function renderPP(){document.getElementById('pat-p').innerHTML=PATS.map((_,i)=>`<div class="pdot${i<_ps.d?' done':''}"></div>`).join('');}
+function renderPat(){
+  const a=document.getElementById('pat-a');
+  if(_ps.i>=PATS.length){a.innerHTML=`<div class="score-wrap"><div class="score-big">🎉</div><div class="score-msg">All patterns done!</div><button class="btn btn-green" onclick="iPatterns()" style="display:block;margin:20px auto 0;">Play again 🔄</button></div>`;return;}
+  const{p,b,a:ans}=PATS[_ps.i];
+  const opts=[...new Set(p)].sort(()=>Math.random()-.5);
+  const row=p.map((x,i)=>i===b?`<div class="pblank" onclick="chkPat('${ans}')">?</div>`:`<div class="pitem">${x}</div>`).join('');
+  a.innerHTML=`<p class="hint">What comes next in the pattern?</p><div class="prow">${row}</div>
+  <div class="choices" style="margin:12px 0;">${opts.map(o=>`<button class="choice" onclick="chkPat('${o}')" style="font-size:28px;padding:10px 18px;">${o}</button>`).join('')}</div>
+  <div class="feedback" id="patfb"></div><button class="next-btn" id="patnx" onclick="_ps.i++;_ps.d=_ps.i;renderPP();renderPat()">Next ➡️</button>`;
+}
+function chkPat(ch){
+  const ans=PATS[_ps.i].a;
+  document.querySelectorAll('#pat-a .choice').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('patfb');
+  if(ch===ans){fb.textContent='✅ Great job!';fb.className='feedback good';say('Great job!');}
+  else{fb.textContent='❌ It was '+ans;fb.className='feedback bad';}
+  document.getElementById('patnx').classList.add('show');
+}
+
+/* ── SIZE ── */
+function iSize(){
+  const pairs=[
+    {a:{e:'🐘',l:'Elephant'},b:{e:'🐭',l:'Mouse'},q:'Which is bigger?',ans:'Elephant'},
+    {a:{e:'🌳',l:'Tree'},b:{e:'🌱',l:'Seedling'},q:'Which is taller?',ans:'Tree'},
+    {a:{e:'🏠',l:'House'},b:{e:'🛖',l:'Hut'},q:'Which is bigger?',ans:'House'},
+    {a:{e:'🦁',l:'Lion'},b:{e:'🐱',l:'Cat'},q:'Which is bigger?',ans:'Lion'},
+  ];
+  document.getElementById('size-a').innerHTML=pairs.map(({a,b,q,ans},i)=>`<div class="fcard" id="szc${i}" style="margin-bottom:14px;">
+    <p style="font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--text);margin-bottom:14px;">${q}</p>
+    <div class="cmp-wrap">
+      <div class="cmp-choice" onclick="ansSz(${i},'${a.l}','${ans}')"><div style="font-size:54px;">${a.e}</div><div style="font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--soft);margin-top:6px;">${a.l}</div></div>
+      <div style="font-family:'Baloo 2',cursive;font-size:22px;font-weight:700;color:var(--soft);">or</div>
+      <div class="cmp-choice" onclick="ansSz(${i},'${b.l}','${ans}')"><div style="font-size:54px;">${b.e}</div><div style="font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--soft);margin-top:6px;">${b.l}</div></div>
+    </div>
+    <div class="feedback" id="szfb${i}"></div>
+  </div>`).join('');
+}
+function ansSz(i,ch,cor){
+  const fb=document.getElementById('szfb'+i);
+  if(ch===cor){fb.textContent='✅ Yes! The '+cor+' is bigger!';fb.className='feedback good';say('Yes! The '+cor+' is bigger!');}
+  else{fb.textContent='❌ The '+cor+' is bigger!';fb.className='feedback bad';say('The '+cor+' is bigger!');}
+  document.querySelectorAll('#szc'+i+' .cmp-choice').forEach(el=>el.style.pointerEvents='none');
+}
+
+/* ── ANIMALS ── */
+const ANIM=[{f:'🐮',n:'Cow',s:'Moo!',say:'A cow says moo!'},{f:'🐷',n:'Pig',s:'Oink!',say:'A pig says oink!'},{f:'🐑',n:'Sheep',s:'Baa!',say:'A sheep says baa!'},{f:'🐓',n:'Chicken',s:'Cluck!',say:'A chicken says cluck!'},{f:'🐶',n:'Dog',s:'Woof!',say:'A dog says woof!'},{f:'🐱',n:'Cat',s:'Meow!',say:'A cat says meow!'},{f:'🦆',n:'Duck',s:'Quack!',say:'A duck says quack!'},{f:'🐸',n:'Frog',s:'Ribbit!',say:'A frog says ribbit!'},{f:'🦁',n:'Lion',s:'Roar!',say:'A lion says roar!'},{f:'🐘',n:'Elephant',s:'Pawoo!',say:'An elephant trumpets!'},{f:'🦉',n:'Owl',s:'Hoot!',say:'An owl says hoot!'},{f:'🐍',n:'Snake',s:'Hiss!',say:'A snake says hiss!'}];
+const ABGS=['#FFF0F4','#FFF4EA','#FFFCE8','#EDFFF5','#EDF8FF','#F5F0FF','#FFF0FA','#EDFFF8'];
+function iAnimals(){
+  document.getElementById('animals-g').innerHTML=ANIM.map((a,i)=>`<div class="itile" style="background:${ABGS[i%ABGS.length]};" onclick="showAnim(${i})"><span class="ticon">${a.f}</span><div class="tname">${a.n}</div></div>`).join('');
+  document.getElementById('animals-d').style.display='none';
+}
+function showAnim(i){
+  const a=ANIM[i],d=document.getElementById('animals-d');
+  d.style.display='block';
+  d.innerHTML=`<div class="detail-pop" style="background:${ABGS[i%ABGS.length]};"><span class="dp-icon">${a.f}</span><div class="dp-title">${a.n}</div><div class="dp-text">says <span style="font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:var(--sky);">${a.s}</span></div></div>`;
+  say(a.say); d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ── BODY ── */
+const BODY=[{f:'👀',n:'Eyes',d:'We use our eyes to see!'},{f:'👂',n:'Ears',d:'We use our ears to hear!'},{f:'👃',n:'Nose',d:'We use our nose to smell!'},{f:'👄',n:'Mouth',d:'We use our mouth to eat and talk!'},{f:'🦷',n:'Teeth',d:'We brush our teeth to keep them healthy!'},{f:'✋',n:'Hands',d:'We use our hands to touch and hold things!'},{f:'🦶',n:'Feet',d:'We use our feet to walk and run!'},{f:'💪',n:'Arms',d:'We use our arms to reach and hug!'},{f:'🦵',n:'Legs',d:'Our legs help us move around!'},{f:'🧠',n:'Brain',d:'Our brain helps us think and learn!'},{f:'❤️',n:'Heart',d:'Our heart pumps blood around our body!'},{f:'🫁',n:'Lungs',d:'Our lungs help us breathe!'}];
+function iBody(){
+  document.getElementById('body-g').innerHTML=BODY.map((b,i)=>`<div class="itile" style="background:${ABGS[i%ABGS.length]};" onclick="showBody(${i})"><span class="ticon">${b.f}</span><div class="tname">${b.n}</div></div>`).join('');
+  document.getElementById('body-d').style.display='none';
+}
+function showBody(i){
+  const b=BODY[i],d=document.getElementById('body-d');
+  d.style.display='block';
+  d.innerHTML=`<div class="detail-pop" style="background:${ABGS[i%ABGS.length]};"><span class="dp-icon">${b.f}</span><div class="dp-title">${b.n}</div><div class="dp-text">${b.d}</div></div>`;
+  say(b.n+'. '+b.d); d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ── SEASONS ── */
+const SEAS=[
+  {n:'Spring',f:'🌸',bg:'linear-gradient(135deg,#FFF0F8,#FFD6EC)',d:'Flowers bloom, birds sing, and it gets warmer. Baby animals are born in spring!',fun:'Nature walks, planting seeds, flying kites'},
+  {n:'Summer',f:'☀️',bg:'linear-gradient(135deg,#FFFDE8,#FFF5B0)',d:'It\'s hot and sunny! School is out and days are long. Perfect for swimming!',fun:'Swimming, ice cream, playing at the park'},
+  {n:'Autumn',f:'🍂',bg:'linear-gradient(135deg,#FFF5EC,#FFE4C0)',d:'Leaves turn red, orange, and yellow and fall from trees. The air gets cooler.',fun:'Jumping in leaf piles, picking pumpkins, cozy sweaters'},
+  {n:'Winter',f:'❄️',bg:'linear-gradient(135deg,#EEF7FF,#CCE8FF)',d:'It\'s cold! Some places get snow. Animals hibernate and trees are bare.',fun:'Building snowmen, staying cozy, hot cocoa'},
+];
+function iSeasons(){
+  document.getElementById('seasons-a').innerHTML=SEAS.map((s,i)=>`<div class="scard" style="background:${s.bg};" onclick="saySeason(${i})"><div class="scard-head"><span class="scard-icon">${s.f}</span><div class="scard-name">${s.n}</div></div><div class="scard-desc">${s.d}</div><div class="scard-fun"><span>Fun things: </span>${s.fun}</div></div>`).join('');
+}
+function saySeason(i){ say(SEAS[i].n+'. '+SEAS[i].d); }
+
+/* ── WEATHER ── */
+const WEA=[{f:'☀️',n:'Sunny',d:'Clear blue sky, bright and warm. Great for playing outside!'},{f:'🌧️',n:'Rainy',d:'Water drops fall from clouds. Use an umbrella and wear boots!'},{f:'⛅',n:'Cloudy',d:'Fluffy clouds cover the sky. Can be cool or warm.'},{f:'❄️',n:'Snowy',d:'Frozen water falls as snowflakes. Wear your coat and mittens!'},{f:'🌬️',n:'Windy',d:'Air moves fast and blows your hair! Great for flying kites.'},{f:'⛈️',n:'Stormy',d:'Thunder, lightning, and heavy rain. Stay safe inside!'},{f:'🌈',n:'Rainbow',d:'After rain and sun, colors appear in the sky!'},{f:'🌫️',n:'Foggy',d:'Mist makes it hard to see far.'}];
+function iWeather(){
+  document.getElementById('weather-g').innerHTML=WEA.map((w,i)=>`<div class="itile" style="background:${ABGS[i%ABGS.length]};" onclick="showWea(${i})"><span class="ticon">${w.f}</span><div class="tname">${w.n}</div></div>`).join('');
+  document.getElementById('weather-d').style.display='none';
+}
+function showWea(i){
+  const w=WEA[i],d=document.getElementById('weather-d');
+  d.style.display='block';
+  d.innerHTML=`<div class="detail-pop" style="background:${ABGS[i%ABGS.length]};"><span class="dp-icon">${w.f}</span><div class="dp-title">${w.n}</div><div class="dp-text">${w.d}</div></div>`;
+  say(w.n+'. '+w.d); d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ── RHYMING ── */
+const RHYMES=[{w:'Cat',ch:['Dog','Hat','Sun','Bird'],ans:'Hat'},{w:'Ball',ch:['Wall','Tree','Fish','Moon'],ans:'Wall'},{w:'Star',ch:['Moon','Car','Tree','Bird'],ans:'Car'},{w:'Blue',ch:['Red','Shoe','Green','Pink'],ans:'Shoe'},{w:'Bee',ch:['Tree','Ant','Fly','Bug'],ans:'Tree'},{w:'King',ch:['Queen','Ring','Crown','Gold'],ans:'Ring'}];
+let _rs={i:0,d:0};
+function iRhyming(){_rs={i:0,d:0};renderRP();renderR();}
+function renderRP(){document.getElementById('rhy-p').innerHTML=RHYMES.map((_,i)=>`<div class="pdot${i<_rs.d?' done':''}"></div>`).join('');}
+function renderR(){
+  const a=document.getElementById('rhy-a');
+  if(_rs.i>=RHYMES.length){a.innerHTML=`<div class="score-wrap"><div class="score-big">🎉</div><div class="score-msg">All rhymes found!</div><button class="btn btn-green" onclick="iRhyming()" style="display:block;margin:20px auto 0;">Play again 🔄</button></div>`;return;}
+  const{w,ch,ans}=RHYMES[_rs.i];
+  a.innerHTML=`<div class="qbubble"><div class="q-hint">Which word rhymes with...</div><div class="rhyme-word">${w}</div></div>
+  <div class="choices">${ch.map(x=>`<button class="choice" onclick="ansRhy(this,'${x}','${ans}','${w}')">${x}</button>`).join('')}</div>
+  <div class="feedback" id="rhyfb"></div><button class="next-btn" id="rhynx" onclick="_rs.i++;_rs.d=_rs.i;renderRP();renderR()">Next ➡️</button>`;
+  say(w);
+}
+function ansRhy(btn,ch,cor,w){
+  document.querySelectorAll('#rhy-a .choice').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('rhyfb');
+  if(ch===cor){btn.classList.add('correct');fb.textContent='✅ '+cor+' rhymes with '+w+'!';fb.className='feedback good';say(cor+' rhymes with '+w);}
+  else{btn.classList.add('wrong');document.querySelectorAll('#rhy-a .choice').forEach(b=>{if(b.textContent===cor)b.classList.add('correct');});fb.textContent='❌ '+cor+' was the rhyme!';fb.className='feedback bad';}
+  document.getElementById('rhynx').classList.add('show');
+}
+
+/* ── TRACING ── */
+const TITEMS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').concat(['1','2','3','4','5','6','7','8','9','10']);
+let tCtx,tDrw=false,tLast;
+function iTrace(){
+  const sel=document.getElementById('tsel');
+  if(!sel.options.length)TITEMS.forEach(l=>{const o=document.createElement('option');o.value=l;o.textContent=l;sel.appendChild(o);});
+  loadTrace();
+  const cv=document.getElementById('trace-canvas');
+  const gp=(e,r)=>e.touches?{x:e.touches[0].clientX-r.left,y:e.touches[0].clientY-r.top}:{x:e.clientX-r.left,y:e.clientY-r.top};
+  cv.onmousedown=e=>{tDrw=true;tLast=gp(e,cv.getBoundingClientRect());};
+  cv.onmousemove=e=>{if(!tDrw)return;const r=cv.getBoundingClientRect(),p=gp(e,r);drawT(p);tLast=p;};
+  cv.onmouseup=cv.onmouseleave=()=>tDrw=false;
+  cv.ontouchstart=e=>{e.preventDefault();tDrw=true;tLast=gp(e,cv.getBoundingClientRect());};
+  cv.ontouchmove=e=>{e.preventDefault();if(!tDrw)return;const r=cv.getBoundingClientRect(),p=gp(e,r);drawT(p);tLast=p;};
+  cv.ontouchend=()=>tDrw=false;
+}
+function drawT(p){tCtx.strokeStyle='#5BC8F5';tCtx.lineWidth=10;tCtx.lineCap='round';tCtx.lineJoin='round';tCtx.beginPath();tCtx.moveTo(tLast.x,tLast.y);tCtx.lineTo(p.x,p.y);tCtx.stroke();}
+function loadTrace(){
+  const cv=document.getElementById('trace-canvas');tCtx=cv.getContext('2d');
+  const l=document.getElementById('tsel').value;
+  tCtx.clearRect(0,0,cv.width,cv.height);
+  tCtx.fillStyle='rgba(180,150,255,0.18)';
+  tCtx.font='bold 200px Baloo 2, cursive';
+  tCtx.textAlign='center';tCtx.textBaseline='middle';
+  tCtx.fillText(l,180,145);
+  document.getElementById('tlabel').textContent='Trace the '+l+' with your finger or mouse!';
+  say(l);
+}
+function clearTrace(){const cv=document.getElementById('trace-canvas');tCtx.clearRect(0,0,cv.width,cv.height);loadTrace();}
+
+/* helper */
+function mk(tag,cls,txt){const el=document.createElement(tag);el.className=cls;if(txt!==undefined)el.textContent=txt;return el;}
+</script>
+</body>
+</html>
