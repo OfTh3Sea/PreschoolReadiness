@@ -1,3 +1,4 @@
+<img width="4440" height="2360" alt="preschool_readiness_poster" src="https://github.com/user-attachments/assets/f9ac0fc3-ad28-4926-83ba-db95facfe346" />
 # 🌈 Ready for Preschool!
 
 A free, colorful, and interactive web app that helps children ages 1–4 build the skills they need before starting preschool. No downloads, no logins, no accounts, no ads — just pure learning and fun.
