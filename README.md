@@ -3,13 +3,13 @@
 
 A free, colorful, and interactive web app that helps children ages 1–4 build the skills they need before starting preschool. No downloads, no logins, no accounts, no ads — just pure learning and fun.
 
-**[▶️ Live Demo](#)** &nbsp;·&nbsp; [Report a Bug](../../issues) &nbsp;·&nbsp; [Request a Feature](../../issues)
+[Report a Bug](../../issues) &nbsp;·&nbsp; [Request a Feature](../../issues)
 
 ---
 
 <div align="center">
 
-![Preschool Readiness App](screenshot.png)
+ 
 
 </div>
 
@@ -38,14 +38,14 @@ Open the live demo link above. Nothing to install.
 
 **Netlify Drop** (easiest — 30 seconds):
 1. Go to [app.netlify.com/drop](https://app.netlify.com/drop)
-2. Drag and drop `index.html` onto the page
+2. Drag and drop `preschool-readiness.html` onto the page
 3. Done — you get a live URL instantly
 
 **GitHub Pages**:
 1. Fork this repo
 2. Go to Settings → Pages
 3. Set source to `main` branch, root folder
-4. Your app is live at `https://yourusername.github.io/preschool-readiness`
+ 
 
 **Vercel**:
 1. Go to [vercel.com/new](https://vercel.com/new)
@@ -54,9 +54,9 @@ Open the live demo link above. Nothing to install.
 
 ### Option 3 — Run locally
 ```bash
-git clone https://github.com/YOUR_USERNAME/preschool-readiness.git
+git clone https://github.com/OfTh3Sea/PreschoolReadiness.git
 cd preschool-readiness
-open index.html
+open preschool-readiness.html
 ```
 
 No build step. No `npm install`. No config. Just open the file in any browser.
