@@ -32,7 +32,6 @@ A free, colorful, and interactive web app that helps children ages 1–4 build t
 ## 🚀 Getting started
 
 ### Option 1 — Use it right now
-Open the live demo link above. Nothing to install.
 
 ### Option 2 — Host it yourself (recommended)
 
